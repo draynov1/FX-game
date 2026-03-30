@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Валути</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="loader">
+    <div class="coin">€</div>
+    <p class="loader-text">Зареждане...</p>
+  </div>
+
+  <div id="app" class="hidden">
+    <header>
+      <h1>Валути</h1>
+      <p class="subtitle">Научи за валутите по света!</p>
+    </header>
+
+    <main>
+      <section id="grid-section">
+        <div class="section-header">
+          <h2>Моите валути</h2>
+          <div class="header-buttons">
+            <button id="refresh-btn" class="btn btn-outline">Обнови</button>
+            <button id="customize-btn" class="btn btn-outline">Промени</button>
+          </div>
+        </div>
+        <p class="hint">1 евро =</p>
+        <div id="currency-grid"></div>
+      </section>
+
+      <section id="converter-section">
+        <h2>Конвертор</h2>
+        <div id="converter">
+          <div class="converter-panel">
+            <select id="from-currency"></select>
+            <input type="number" id="from-amount" value="1" min="0" step="any" inputmode="decimal">
+          </div>
+          <button id="swap-btn" class="btn-swap" title="Размени">⇄</button>
+          <div class="converter-panel">
+            <select id="to-currency"></select>
+            <div id="to-result" class="result-display">—</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="items-section">
+        <h2>Колко струва?</h2>
+        <div id="items-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Курсове от <a href="https://www.frankfurter.app" target="_blank" rel="noopener">Frankfurter</a> (ЕЦБ)</p>
+      <p id="last-updated"></p>
+    </footer>
+  </div>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <h2>Избери до 10 валути</h2>
+      <p id="modal-count" class="modal-count"></p>
+      <div id="currency-list"></div>
+      <button id="modal-done" class="btn btn-primary">Готово</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
