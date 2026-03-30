@@ -108,12 +108,10 @@ const CARD_COLORS = [
 const CACHE_KEY = 'fx_rates';
 const SELECTION_KEY = 'fx_selected';
 const CACHE_DURATION = 3600000; // 1 hour
-const DEFAULT_SELECTED = Object.keys(ALL_CURRENCIES).filter((c) => c !== 'EUR');
-
 // ====== STATE ======
 let rates = {};
 let availableCurrencies = [];
-let selectedCurrencies = [...DEFAULT_SELECTED];
+let selectedCurrencies = [];
 let converterFrom = 'EUR';
 let converterTo = 'USD';
 
@@ -142,7 +140,28 @@ function saveCache(ratesObj) {
   } catch { /* quota exceeded — ignore */ }
 }
 
+// Auto-generate flag emoji from a currency code (uses first 2 chars as country code)
+function autoFlag(code) {
+  const cc = code.slice(0, 2);
+  return String.fromCodePoint(
+    ...cc.split('').map((ch) => 0x1F1E6 + ch.charCodeAt(0) - 65),
+  );
+}
+
 function buildAvailable() {
+  // Add any API-returned currencies that aren't in our metadata
+  Object.keys(rates).forEach((code) => {
+    if (code === 'EUR') return;
+    if (!ALL_CURRENCIES[code]) {
+      ALL_CURRENCIES[code] = {
+        flag: autoFlag(code),
+        name: code,
+        region: 'Други',
+      };
+      COUNTRY_NAMES[code] = code;
+    }
+  });
+
   availableCurrencies = Object.keys(ALL_CURRENCIES).filter(
     (c) => c === 'EUR' || rates[c] !== undefined,
   );
@@ -168,11 +187,28 @@ async function fetchRates() {
   }
 
   try {
-    const res = await fetch('https://api.frankfurter.app/latest?from=EUR');
-    if (!res.ok) throw new Error('API ' + res.status);
-    const data = await res.json();
+    const [ratesRes, currRes] = await Promise.all([
+      fetch('https://api.frankfurter.app/latest?from=EUR'),
+      fetch('https://api.frankfurter.app/currencies').catch(() => null),
+    ]);
+    if (!ratesRes.ok) throw new Error('API ' + ratesRes.status);
+    const data = await ratesRes.json();
     rates = data.rates;
     rates.EUR = 1;
+    // Use API currency names for any we don't already have metadata for
+    if (currRes && currRes.ok) {
+      const names = await currRes.json();
+      Object.keys(names).forEach((code) => {
+        if (!ALL_CURRENCIES[code] && code !== 'EUR') {
+          ALL_CURRENCIES[code] = {
+            flag: autoFlag(code),
+            name: names[code],
+            region: 'Други',
+          };
+          COUNTRY_NAMES[code] = names[code];
+        }
+      });
+    }
     saveCache(rates);
     buildAvailable();
   } catch (err) {
@@ -297,7 +333,7 @@ function openModal() {
   const list = $('currency-list');
   const tempSelected = new Set(selectedCurrencies);
 
-  const regionOrder = ['Европа', 'Америка', 'Азия и Океания', 'Африка и Близък изток'];
+  const regionOrder = ['Европа', 'Америка', 'Азия и Океания', 'Африка и Близък изток', 'Други'];
 
   function renderList() {
     list.innerHTML = '';
