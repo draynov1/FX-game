@@ -108,9 +108,7 @@ const CARD_COLORS = [
 const CACHE_KEY = 'fx_rates';
 const SELECTION_KEY = 'fx_selected';
 const CACHE_DURATION = 3600000; // 1 hour
-const DEFAULT_SELECTED = [
-  'USD', 'GBP', 'JPY', 'CHF', 'TRY', 'PLN', 'CNY', 'AUD', 'BRL', 'KRW',
-];
+const DEFAULT_SELECTED = Object.keys(ALL_CURRENCIES).filter((c) => c !== 'EUR');
 
 // ====== STATE ======
 let rates = {};
@@ -152,9 +150,8 @@ function buildAvailable() {
   selectedCurrencies = selectedCurrencies.filter(
     (c) => c !== 'EUR' && availableCurrencies.includes(c),
   );
-  // Fill to 10 if needed
+  // Fill with all available currencies if needed
   for (const c of availableCurrencies) {
-    if (selectedCurrencies.length >= 10) break;
     if (c !== 'EUR' && !selectedCurrencies.includes(c)) {
       selectedCurrencies.push(c);
     }
@@ -326,7 +323,7 @@ function openModal() {
       codes.forEach((code) => {
         const cur = ALL_CURRENCIES[code];
         const checked = tempSelected.has(code);
-        const disabled = !checked && tempSelected.size >= 10;
+        const disabled = false;
 
         const row = document.createElement('div');
         row.className = 'cur-option' + (disabled ? ' disabled' : '');
@@ -340,7 +337,7 @@ function openModal() {
         row.querySelector('input').addEventListener('change', function () {
           if (this.checked) tempSelected.add(code);
           else tempSelected.delete(code);
-          $('modal-count').textContent = 'Избрани: ' + tempSelected.size + ' / 10';
+          $('modal-count').textContent = 'Избрани: ' + tempSelected.size;
           renderList();
         });
 
@@ -351,7 +348,7 @@ function openModal() {
     });
   }
 
-  $('modal-count').textContent = 'Избрани: ' + tempSelected.size + ' / 10';
+  $('modal-count').textContent = 'Избрани: ' + tempSelected.size;
   renderList();
 
   $('modal-done').onclick = () => {
