@@ -177,17 +177,6 @@ function buildAvailable() {
   }
 }
 
-function parseRatesResponse(data) {
-  const parsed = {};
-  if (Array.isArray(data)) {
-    data.forEach((r) => { parsed[r.quote] = r.rate; });
-  } else if (data.rates) {
-    Object.assign(parsed, data.rates);
-  }
-  parsed.EUR = 1;
-  return parsed;
-}
-
 async function fetchRates() {
   const cached = loadCache(false);
   if (cached) {
@@ -199,26 +188,24 @@ async function fetchRates() {
 
   try {
     const [ratesRes, currRes] = await Promise.all([
-      fetch('https://api.frankfurter.dev/v2/rates?base=EUR'),
-      fetch('https://api.frankfurter.dev/v2/currencies').catch(() => null),
+      fetch('https://api.frankfurter.app/latest?from=EUR'),
+      fetch('https://api.frankfurter.app/currencies').catch(() => null),
     ]);
     if (!ratesRes.ok) throw new Error('API ' + ratesRes.status);
     const data = await ratesRes.json();
-    rates = parseRatesResponse(data);
+    rates = data.rates || {};
+    rates.EUR = 1;
     // Use API currency names for any we don't already have metadata for
     if (currRes && currRes.ok) {
-      const currencies = await currRes.json();
-      const list = Array.isArray(currencies) ? currencies : Object.entries(currencies).map(([code, name]) => ({ code, name: typeof name === 'string' ? name : code }));
-      list.forEach((c) => {
-        const code = c.code || c;
-        const name = c.name || (typeof c === 'string' ? c : code);
+      const names = await currRes.json();
+      Object.keys(names).forEach((code) => {
         if (!ALL_CURRENCIES[code] && code !== 'EUR') {
           ALL_CURRENCIES[code] = {
             flag: autoFlag(code),
-            name: name,
+            name: names[code],
             region: 'Други',
           };
-          COUNTRY_NAMES[code] = name;
+          COUNTRY_NAMES[code] = names[code];
         }
       });
     }
@@ -454,10 +441,11 @@ async function refreshRates() {
   btn.disabled = true;
   btn.textContent = '...';
   try {
-    const res = await fetch('https://api.frankfurter.dev/v2/rates?base=EUR');
+    const res = await fetch('https://api.frankfurter.app/latest?from=EUR');
     if (!res.ok) throw new Error('API ' + res.status);
     const data = await res.json();
-    rates = parseRatesResponse(data);
+    rates = data.rates || {};
+    rates.EUR = 1;
     saveCache(rates);
     buildAvailable();
     renderGrid();
@@ -474,10 +462,11 @@ async function refreshRates() {
 function startAutoRefresh() {
   setInterval(async () => {
     try {
-      const res = await fetch('https://api.frankfurter.dev/v2/rates?base=EUR');
+      const res = await fetch('https://api.frankfurter.app/latest?from=EUR');
       if (!res.ok) return;
       const data = await res.json();
-      rates = parseRatesResponse(data);
+      rates = data.rates || {};
+      rates.EUR = 1;
       saveCache(rates);
       buildAvailable();
       renderGrid();
