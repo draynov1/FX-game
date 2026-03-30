@@ -105,6 +105,18 @@ const CARD_COLORS = [
   '#00B4D8', '#E9C46A', '#7B2D8E', '#F4845F', '#48BFE3',
 ];
 
+const RATES_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.min.json';
+const RATES_FALLBACK = 'https://latest.currency-api.pages.dev/v1/currencies/eur.min.json';
+const CURRENCIES_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.min.json';
+
+// Known crypto/commodity codes to exclude from a kids' currency game
+const EXCLUDED = new Set([
+  'btc','eth','ltc','xrp','doge','ada','dot','sol','bnb','matic','avax',
+  'shib','uni','link','xlm','trx','xmr','etc','bch','atom','algo','vet',
+  'fil','icp','aave','sand','mana','axs','gala','ape','ldo','op','arb',
+  'xau','xag','xpt','xpd','xdr',
+]);
+
 const CACHE_KEY = 'fx_rates';
 const SELECTION_KEY = 'fx_selected';
 const CACHE_DURATION = 3600000; // 1 hour
@@ -177,6 +189,41 @@ function buildAvailable() {
   }
 }
 
+async function fetchFromApi(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('API ' + res.status);
+  return res.json();
+}
+
+function applyRatesData(data) {
+  // API returns { date, eur: { usd: 1.08, ... } } with lowercase keys
+  const raw = data.eur || {};
+  rates = {};
+  Object.keys(raw).forEach((key) => {
+    const code = key.toUpperCase();
+    if (!EXCLUDED.has(key) && code.length === 3) {
+      rates[code] = raw[key];
+    }
+  });
+  rates.EUR = 1;
+}
+
+function applyCurrencyNames(data) {
+  // data is { usd: "United States Dollar", ... }
+  Object.keys(data).forEach((key) => {
+    const code = key.toUpperCase();
+    if (EXCLUDED.has(key) || code.length !== 3 || code === 'EUR') return;
+    if (!ALL_CURRENCIES[code] && rates[code] !== undefined) {
+      ALL_CURRENCIES[code] = {
+        flag: autoFlag(code),
+        name: data[key],
+        region: 'Други',
+      };
+      COUNTRY_NAMES[code] = data[key];
+    }
+  });
+}
+
 async function fetchRates() {
   const cached = loadCache(false);
   if (cached) {
@@ -187,28 +234,19 @@ async function fetchRates() {
   }
 
   try {
-    const [ratesRes, currRes] = await Promise.all([
-      fetch('https://api.frankfurter.app/latest?from=EUR'),
-      fetch('https://api.frankfurter.app/currencies').catch(() => null),
-    ]);
-    if (!ratesRes.ok) throw new Error('API ' + ratesRes.status);
-    const data = await ratesRes.json();
-    rates = data.rates || {};
-    rates.EUR = 1;
-    // Use API currency names for any we don't already have metadata for
-    if (currRes && currRes.ok) {
-      const names = await currRes.json();
-      Object.keys(names).forEach((code) => {
-        if (!ALL_CURRENCIES[code] && code !== 'EUR') {
-          ALL_CURRENCIES[code] = {
-            flag: autoFlag(code),
-            name: names[code],
-            region: 'Други',
-          };
-          COUNTRY_NAMES[code] = names[code];
-        }
-      });
+    let ratesData;
+    try {
+      ratesData = await fetchFromApi(RATES_URL);
+    } catch {
+      ratesData = await fetchFromApi(RATES_FALLBACK);
     }
+    applyRatesData(ratesData);
+
+    try {
+      const currData = await fetchFromApi(CURRENCIES_URL);
+      applyCurrencyNames(currData);
+    } catch { /* currency names are optional */ }
+
     saveCache(rates);
     buildAvailable();
   } catch (err) {
@@ -441,13 +479,13 @@ async function refreshRates() {
   btn.disabled = true;
   btn.textContent = '...';
   try {
-    const res = await fetch('https://api.frankfurter.app/latest?from=EUR');
-    if (!res.ok) throw new Error('API ' + res.status);
-    const data = await res.json();
-    rates = data.rates || {};
-    rates.EUR = 1;
+    let data;
+    try { data = await fetchFromApi(RATES_URL); }
+    catch { data = await fetchFromApi(RATES_FALLBACK); }
+    applyRatesData(data);
     saveCache(rates);
     buildAvailable();
+    populateConverterSelects();
     renderGrid();
     updateConverter();
     renderItems();
@@ -462,11 +500,10 @@ async function refreshRates() {
 function startAutoRefresh() {
   setInterval(async () => {
     try {
-      const res = await fetch('https://api.frankfurter.app/latest?from=EUR');
-      if (!res.ok) return;
-      const data = await res.json();
-      rates = data.rates || {};
-      rates.EUR = 1;
+      let data;
+      try { data = await fetchFromApi(RATES_URL); }
+      catch { data = await fetchFromApi(RATES_FALLBACK); }
+      applyRatesData(data);
       saveCache(rates);
       buildAvailable();
       renderGrid();
