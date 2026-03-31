@@ -1,6 +1,6 @@
-// ====== CURRENCY DATA ======
+// ====== CURRENCY DATA (whitelist — only real, active country currencies) ======
 const ALL_CURRENCIES = {
-  // European
+  // Europe
   EUR: { flag: '\u{1F1EA}\u{1F1FA}', name: 'Евро', region: 'Европа' },
   GBP: { flag: '\u{1F1EC}\u{1F1E7}', name: 'Британска лира', region: 'Европа' },
   CHF: { flag: '\u{1F1E8}\u{1F1ED}', name: 'Швейцарски франк', region: 'Европа' },
@@ -22,6 +22,9 @@ const ALL_CURRENCIES = {
   MKD: { flag: '\u{1F1F2}\u{1F1F0}', name: 'Македонски денар', region: 'Европа' },
   BAM: { flag: '\u{1F1E7}\u{1F1E6}', name: 'Босненска марка', region: 'Европа' },
   MDL: { flag: '\u{1F1F2}\u{1F1E9}', name: 'Молдовско леу', region: 'Европа' },
+  BYN: { flag: '\u{1F1E7}\u{1F1FE}', name: 'Беларуска рубла', region: 'Европа' },
+  AMD: { flag: '\u{1F1E6}\u{1F1F2}', name: 'Арменски драм', region: 'Европа' },
+  AZN: { flag: '\u{1F1E6}\u{1F1FF}', name: 'Азербайджански манат', region: 'Европа' },
 
   // Americas
   USD: { flag: '\u{1F1FA}\u{1F1F8}', name: 'Американски долар', region: 'Америка' },
@@ -32,8 +35,23 @@ const ALL_CURRENCIES = {
   CLP: { flag: '\u{1F1E8}\u{1F1F1}', name: 'Чилийско песо', region: 'Америка' },
   COP: { flag: '\u{1F1E8}\u{1F1F4}', name: 'Колумбийско песо', region: 'Америка' },
   PEN: { flag: '\u{1F1F5}\u{1F1EA}', name: 'Перуанско сол', region: 'Америка' },
+  UYU: { flag: '\u{1F1FA}\u{1F1FE}', name: 'Уругвайско песо', region: 'Америка' },
+  PYG: { flag: '\u{1F1F5}\u{1F1FE}', name: 'Парагвайско гуарани', region: 'Америка' },
+  BOB: { flag: '\u{1F1E7}\u{1F1F4}', name: 'Боливийско боливиано', region: 'Америка' },
+  DOP: { flag: '\u{1F1E9}\u{1F1F4}', name: 'Доминиканско песо', region: 'Америка' },
+  CRC: { flag: '\u{1F1E8}\u{1F1F7}', name: 'Костарикански колон', region: 'Америка' },
+  GTQ: { flag: '\u{1F1EC}\u{1F1F9}', name: 'Гватемалски кетцал', region: 'Америка' },
+  HNL: { flag: '\u{1F1ED}\u{1F1F3}', name: 'Хондураска лемпира', region: 'Америка' },
+  NIO: { flag: '\u{1F1F3}\u{1F1EE}', name: 'Никарагуанска кордоба', region: 'Америка' },
+  PAB: { flag: '\u{1F1F5}\u{1F1E6}', name: 'Панамска балбоа', region: 'Америка' },
+  JMD: { flag: '\u{1F1EF}\u{1F1F2}', name: 'Ямайски долар', region: 'Америка' },
+  TTD: { flag: '\u{1F1F9}\u{1F1F9}', name: 'Тринидадски долар', region: 'Америка' },
+  BBD: { flag: '\u{1F1E7}\u{1F1E7}', name: 'Барбадоски долар', region: 'Америка' },
+  BSD: { flag: '\u{1F1E7}\u{1F1F8}', name: 'Бахамски долар', region: 'Америка' },
+  HTG: { flag: '\u{1F1ED}\u{1F1F9}', name: 'Хаитски гурд', region: 'Америка' },
+  VES: { flag: '\u{1F1FB}\u{1F1EA}', name: 'Венецуелски боливар', region: 'Америка' },
 
-  // Asia-Pacific
+  // Asia & Pacific
   JPY: { flag: '\u{1F1EF}\u{1F1F5}', name: 'Японска йена', region: 'Азия и Океания' },
   CNY: { flag: '\u{1F1E8}\u{1F1F3}', name: 'Китайски юан', region: 'Азия и Океания' },
   KRW: { flag: '\u{1F1F0}\u{1F1F7}', name: 'Южнокорейски вон', region: 'Азия и Океания' },
@@ -48,16 +66,71 @@ const ALL_CURRENCIES = {
   HKD: { flag: '\u{1F1ED}\u{1F1F0}', name: 'Хонгконгски долар', region: 'Азия и Океания' },
   AUD: { flag: '\u{1F1E6}\u{1F1FA}', name: 'Австралийски долар', region: 'Азия и Океания' },
   NZD: { flag: '\u{1F1F3}\u{1F1FF}', name: 'Новозеландски долар', region: 'Азия и Океания' },
+  PKR: { flag: '\u{1F1F5}\u{1F1F0}', name: 'Пакистанска рупия', region: 'Азия и Океания' },
+  BDT: { flag: '\u{1F1E7}\u{1F1E9}', name: 'Бангладешка така', region: 'Азия и Океания' },
+  LKR: { flag: '\u{1F1F1}\u{1F1F0}', name: 'Шриланкска рупия', region: 'Азия и Океания' },
+  NPR: { flag: '\u{1F1F3}\u{1F1F5}', name: 'Непалска рупия', region: 'Азия и Океания' },
+  MMK: { flag: '\u{1F1F2}\u{1F1F2}', name: 'Мианмарски киат', region: 'Азия и Океания' },
+  KHR: { flag: '\u{1F1F0}\u{1F1ED}', name: 'Камбоджански риел', region: 'Азия и Океания' },
+  LAK: { flag: '\u{1F1F1}\u{1F1E6}', name: 'Лаоски кип', region: 'Азия и Океания' },
+  MNT: { flag: '\u{1F1F2}\u{1F1F3}', name: 'Монголски тугрик', region: 'Азия и Океания' },
+  KZT: { flag: '\u{1F1F0}\u{1F1FF}', name: 'Казахстанско тенге', region: 'Азия и Океания' },
+  UZS: { flag: '\u{1F1FA}\u{1F1FF}', name: 'Узбекски сом', region: 'Азия и Океания' },
+  KGS: { flag: '\u{1F1F0}\u{1F1EC}', name: 'Киргизки сом', region: 'Азия и Океания' },
+  TJS: { flag: '\u{1F1F9}\u{1F1EF}', name: 'Таджикски сомони', region: 'Азия и Океания' },
+  TMT: { flag: '\u{1F1F9}\u{1F1F2}', name: 'Туркменски манат', region: 'Азия и Океания' },
+  FJD: { flag: '\u{1F1EB}\u{1F1EF}', name: 'Фиджийски долар', region: 'Азия и Океания' },
+  PGK: { flag: '\u{1F1F5}\u{1F1EC}', name: 'Папуаска кина', region: 'Азия и Океания' },
+  BND: { flag: '\u{1F1E7}\u{1F1F3}', name: 'Брунейски долар', region: 'Азия и Океания' },
+  MOP: { flag: '\u{1F1F2}\u{1F1F4}', name: 'Макаоска патака', region: 'Азия и Океания' },
+  KPW: { flag: '\u{1F1F0}\u{1F1F5}', name: 'Севернокорейски вон', region: 'Азия и Океания' },
+  AFN: { flag: '\u{1F1E6}\u{1F1EB}', name: 'Афганистански афгани', region: 'Азия и Океания' },
 
-  // Africa & Middle East
-  ZAR: { flag: '\u{1F1FF}\u{1F1E6}', name: 'Южноафрикански ранд', region: 'Африка и Близък изток' },
-  EGP: { flag: '\u{1F1EA}\u{1F1EC}', name: 'Египетска лира', region: 'Африка и Близък изток' },
-  NGN: { flag: '\u{1F1F3}\u{1F1EC}', name: 'Нигерийска найра', region: 'Африка и Близък изток' },
-  KES: { flag: '\u{1F1F0}\u{1F1EA}', name: 'Кенийски шилинг', region: 'Африка и Близък изток' },
-  MAD: { flag: '\u{1F1F2}\u{1F1E6}', name: 'Мароканско дирхам', region: 'Африка и Близък изток' },
-  ILS: { flag: '\u{1F1EE}\u{1F1F1}', name: 'Израелски шекел', region: 'Африка и Близък изток' },
-  SAR: { flag: '\u{1F1F8}\u{1F1E6}', name: 'Саудитски риал', region: 'Африка и Близък изток' },
-  AED: { flag: '\u{1F1E6}\u{1F1EA}', name: 'Емиратско дирхам', region: 'Африка и Близък изток' },
+  // Africa
+  ZAR: { flag: '\u{1F1FF}\u{1F1E6}', name: 'Южноафрикански ранд', region: 'Африка' },
+  EGP: { flag: '\u{1F1EA}\u{1F1EC}', name: 'Египетска лира', region: 'Африка' },
+  NGN: { flag: '\u{1F1F3}\u{1F1EC}', name: 'Нигерийска найра', region: 'Африка' },
+  KES: { flag: '\u{1F1F0}\u{1F1EA}', name: 'Кенийски шилинг', region: 'Африка' },
+  MAD: { flag: '\u{1F1F2}\u{1F1E6}', name: 'Мароканско дирхам', region: 'Африка' },
+  GHS: { flag: '\u{1F1EC}\u{1F1ED}', name: 'Ганайско седи', region: 'Африка' },
+  TZS: { flag: '\u{1F1F9}\u{1F1FF}', name: 'Танзанийски шилинг', region: 'Африка' },
+  UGX: { flag: '\u{1F1FA}\u{1F1EC}', name: 'Угандски шилинг', region: 'Африка' },
+  ETB: { flag: '\u{1F1EA}\u{1F1F9}', name: 'Етиопски бир', region: 'Африка' },
+  DZD: { flag: '\u{1F1E9}\u{1F1FF}', name: 'Алжирски динар', region: 'Африка' },
+  TND: { flag: '\u{1F1F9}\u{1F1F3}', name: 'Тунизийски динар', region: 'Африка' },
+  LYD: { flag: '\u{1F1F1}\u{1F1FE}', name: 'Либийски динар', region: 'Африка' },
+  SDG: { flag: '\u{1F1F8}\u{1F1E9}', name: 'Судански паунд', region: 'Африка' },
+  CDF: { flag: '\u{1F1E8}\u{1F1E9}', name: 'Конгоански франк', region: 'Африка' },
+  AOA: { flag: '\u{1F1E6}\u{1F1F4}', name: 'Анголска кванза', region: 'Африка' },
+  XOF: { flag: '\u{1F30D}', name: 'Западноафрикански франк', region: 'Африка' },
+  XAF: { flag: '\u{1F30D}', name: 'Централноафрикански франк', region: 'Африка' },
+  MZN: { flag: '\u{1F1F2}\u{1F1FF}', name: 'Мозамбикски метикал', region: 'Африка' },
+  ZMW: { flag: '\u{1F1FF}\u{1F1F2}', name: 'Замбийска квача', region: 'Африка' },
+  MWK: { flag: '\u{1F1F2}\u{1F1FC}', name: 'Малавийска квача', region: 'Африка' },
+  BWP: { flag: '\u{1F1E7}\u{1F1FC}', name: 'Ботсванска пула', region: 'Африка' },
+  MUR: { flag: '\u{1F1F2}\u{1F1FA}', name: 'Маврицийска рупия', region: 'Африка' },
+  SCR: { flag: '\u{1F1F8}\u{1F1E8}', name: 'Сейшелска рупия', region: 'Африка' },
+  RWF: { flag: '\u{1F1F7}\u{1F1FC}', name: 'Руандски франк', region: 'Африка' },
+  MGA: { flag: '\u{1F1F2}\u{1F1EC}', name: 'Малгашко ариари', region: 'Африка' },
+  SOS: { flag: '\u{1F1F8}\u{1F1F4}', name: 'Сомалийски шилинг', region: 'Африка' },
+  NAD: { flag: '\u{1F1F3}\u{1F1E6}', name: 'Намибийски долар', region: 'Африка' },
+  GMD: { flag: '\u{1F1EC}\u{1F1F2}', name: 'Гамбийско даласи', region: 'Африка' },
+  CVE: { flag: '\u{1F1E8}\u{1F1FB}', name: 'Кабовердийско ескудо', region: 'Африка' },
+
+  // Middle East
+  ILS: { flag: '\u{1F1EE}\u{1F1F1}', name: 'Израелски шекел', region: 'Близък изток' },
+  SAR: { flag: '\u{1F1F8}\u{1F1E6}', name: 'Саудитски риал', region: 'Близък изток' },
+  AED: { flag: '\u{1F1E6}\u{1F1EA}', name: 'Емиратско дирхам', region: 'Близък изток' },
+  QAR: { flag: '\u{1F1F6}\u{1F1E6}', name: 'Катарски риал', region: 'Близък изток' },
+  KWD: { flag: '\u{1F1F0}\u{1F1FC}', name: 'Кувейтски динар', region: 'Близък изток' },
+  BHD: { flag: '\u{1F1E7}\u{1F1ED}', name: 'Бахрейнски динар', region: 'Близък изток' },
+  OMR: { flag: '\u{1F1F4}\u{1F1F2}', name: 'Омански риал', region: 'Близък изток' },
+  JOD: { flag: '\u{1F1EF}\u{1F1F4}', name: 'Йордански динар', region: 'Близък изток' },
+  IQD: { flag: '\u{1F1EE}\u{1F1F6}', name: 'Иракски динар', region: 'Близък изток' },
+  IRR: { flag: '\u{1F1EE}\u{1F1F7}', name: 'Ирански риал', region: 'Близък изток' },
+  LBP: { flag: '\u{1F1F1}\u{1F1E7}', name: 'Ливански лира', region: 'Близък изток' },
+  SYP: { flag: '\u{1F1F8}\u{1F1FE}', name: 'Сирийска лира', region: 'Близък изток' },
+  YER: { flag: '\u{1F1FE}\u{1F1EA}', name: 'Йеменски риал', region: 'Близък изток' },
 };
 
 const COUNTRY_NAMES = {
@@ -68,17 +141,42 @@ const COUNTRY_NAMES = {
   BGN: 'България', RUB: 'Русия', UAH: 'Украйна',
   GEL: 'Грузия', RSD: 'Сърбия', ALL: 'Албания',
   MKD: 'Северна Македония', BAM: 'Босна и Херцеговина', MDL: 'Молдова',
+  BYN: 'Беларус', AMD: 'Армения', AZN: 'Азербайджан',
   USD: 'САЩ', CAD: 'Канада', MXN: 'Мексико',
   BRL: 'Бразилия', ARS: 'Аржентина', CLP: 'Чили',
-  COP: 'Колумбия', PEN: 'Перу',
+  COP: 'Колумбия', PEN: 'Перу', UYU: 'Уругвай',
+  PYG: 'Парагвай', BOB: 'Боливия', DOP: 'Доминикана',
+  CRC: 'Коста Рика', GTQ: 'Гватемала', HNL: 'Хондурас',
+  NIO: 'Никарагуа', PAB: 'Панама', JMD: 'Ямайка',
+  TTD: 'Тринидад и Тобаго', BBD: 'Барбадос', BSD: 'Бахами',
+  HTG: 'Хаити', VES: 'Венецуела',
   JPY: 'Япония', CNY: 'Китай', KRW: 'Южна Корея',
   INR: 'Индия', IDR: 'Индонезия', THB: 'Тайланд',
   MYR: 'Малайзия', SGD: 'Сингапур', PHP: 'Филипини',
   VND: 'Виетнам', TWD: 'Тайван', HKD: 'Хонконг',
   AUD: 'Австралия', NZD: 'Нова Зеландия',
+  PKR: 'Пакистан', BDT: 'Бангладеш', LKR: 'Шри Ланка',
+  NPR: 'Непал', MMK: 'Мианмар', KHR: 'Камбоджа',
+  LAK: 'Лаос', MNT: 'Монголия',
+  KZT: 'Казахстан', UZS: 'Узбекистан', KGS: 'Киргизстан',
+  TJS: 'Таджикистан', TMT: 'Туркменистан',
+  FJD: 'Фиджи', PGK: 'Папуа Нова Гвинея',
+  BND: 'Бруней', MOP: 'Макао', KPW: 'Северна Корея',
+  AFN: 'Афганистан',
   ZAR: 'Южна Африка', EGP: 'Египет', NGN: 'Нигерия',
-  KES: 'Кения', MAD: 'Мароко', ILS: 'Израел',
-  SAR: 'Саудитска Арабия', AED: 'ОАЕ',
+  KES: 'Кения', MAD: 'Мароко', GHS: 'Гана',
+  TZS: 'Танзания', UGX: 'Уганда', ETB: 'Етиопия',
+  DZD: 'Алжир', TND: 'Тунис', LYD: 'Либия',
+  SDG: 'Судан', CDF: 'Конго', AOA: 'Ангола',
+  XOF: 'Западна Африка', XAF: 'Централна Африка',
+  MZN: 'Мозамбик', ZMW: 'Замбия', MWK: 'Малави',
+  BWP: 'Ботсвана', MUR: 'Мавриций', SCR: 'Сейшели',
+  RWF: 'Руанда', MGA: 'Мадагаскар', SOS: 'Сомалия',
+  NAD: 'Намибия', GMD: 'Гамбия', CVE: 'Кабо Верде',
+  ILS: 'Израел', SAR: 'Саудитска Арабия', AED: 'ОАЕ',
+  QAR: 'Катар', KWD: 'Кувейт', BHD: 'Бахрейн',
+  OMR: 'Оман', JOD: 'Йордания', IQD: 'Ирак',
+  IRR: 'Иран', LBP: 'Ливан', SYP: 'Сирия', YER: 'Йемен',
 };
 
 function countryName(code) {
@@ -105,17 +203,16 @@ const CARD_COLORS = [
   '#00B4D8', '#E9C46A', '#7B2D8E', '#F4845F', '#48BFE3',
 ];
 
+const RATES_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.min.json';
+const RATES_FALLBACK = 'https://latest.currency-api.pages.dev/v1/currencies/eur.min.json';
+
 const CACHE_KEY = 'fx_rates';
 const SELECTION_KEY = 'fx_selected';
 const CACHE_DURATION = 3600000; // 1 hour
-const DEFAULT_SELECTED = [
-  'USD', 'GBP', 'JPY', 'CHF', 'TRY', 'PLN', 'CNY', 'AUD', 'BRL', 'KRW',
-];
-
 // ====== STATE ======
 let rates = {};
 let availableCurrencies = [];
-let selectedCurrencies = [...DEFAULT_SELECTED];
+let selectedCurrencies = [];
 let converterFrom = 'EUR';
 let converterTo = 'USD';
 
@@ -145,6 +242,7 @@ function saveCache(ratesObj) {
 }
 
 function buildAvailable() {
+  // Only show currencies from our whitelist that the API has rates for
   availableCurrencies = Object.keys(ALL_CURRENCIES).filter(
     (c) => c === 'EUR' || rates[c] !== undefined,
   );
@@ -152,13 +250,31 @@ function buildAvailable() {
   selectedCurrencies = selectedCurrencies.filter(
     (c) => c !== 'EUR' && availableCurrencies.includes(c),
   );
-  // Fill to 10 if needed
+  // Fill with all available currencies if needed
   for (const c of availableCurrencies) {
-    if (selectedCurrencies.length >= 10) break;
     if (c !== 'EUR' && !selectedCurrencies.includes(c)) {
       selectedCurrencies.push(c);
     }
   }
+}
+
+async function fetchFromApi(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('API ' + res.status);
+  return res.json();
+}
+
+function applyRatesData(data) {
+  // API returns { date, eur: { usd: 1.08, ... } } with lowercase keys
+  const raw = data.eur || {};
+  rates = {};
+  Object.keys(raw).forEach((key) => {
+    const code = key.toUpperCase();
+    if (ALL_CURRENCIES[code]) {
+      rates[code] = raw[key];
+    }
+  });
+  rates.EUR = 1;
 }
 
 async function fetchRates() {
@@ -171,11 +287,13 @@ async function fetchRates() {
   }
 
   try {
-    const res = await fetch('https://api.frankfurter.app/latest?from=EUR');
-    if (!res.ok) throw new Error('API ' + res.status);
-    const data = await res.json();
-    rates = data.rates;
-    rates.EUR = 1;
+    let ratesData;
+    try {
+      ratesData = await fetchFromApi(RATES_URL);
+    } catch {
+      ratesData = await fetchFromApi(RATES_FALLBACK);
+    }
+    applyRatesData(ratesData);
     saveCache(rates);
     buildAvailable();
   } catch (err) {
@@ -300,7 +418,7 @@ function openModal() {
   const list = $('currency-list');
   const tempSelected = new Set(selectedCurrencies);
 
-  const regionOrder = ['Европа', 'Америка', 'Азия и Океания', 'Африка и Близък изток'];
+  const regionOrder = ['Европа', 'Америка', 'Азия и Океания', 'Африка', 'Близък изток'];
 
   function renderList() {
     list.innerHTML = '';
@@ -326,7 +444,7 @@ function openModal() {
       codes.forEach((code) => {
         const cur = ALL_CURRENCIES[code];
         const checked = tempSelected.has(code);
-        const disabled = !checked && tempSelected.size >= 10;
+        const disabled = false;
 
         const row = document.createElement('div');
         row.className = 'cur-option' + (disabled ? ' disabled' : '');
@@ -340,7 +458,7 @@ function openModal() {
         row.querySelector('input').addEventListener('change', function () {
           if (this.checked) tempSelected.add(code);
           else tempSelected.delete(code);
-          $('modal-count').textContent = 'Избрани: ' + tempSelected.size + ' / 10';
+          $('modal-count').textContent = 'Избрани: ' + tempSelected.size;
           renderList();
         });
 
@@ -351,7 +469,7 @@ function openModal() {
     });
   }
 
-  $('modal-count').textContent = 'Избрани: ' + tempSelected.size + ' / 10';
+  $('modal-count').textContent = 'Избрани: ' + tempSelected.size;
   renderList();
 
   $('modal-done').onclick = () => {
@@ -408,13 +526,13 @@ async function refreshRates() {
   btn.disabled = true;
   btn.textContent = '...';
   try {
-    const res = await fetch('https://api.frankfurter.app/latest?from=EUR');
-    if (!res.ok) throw new Error('API ' + res.status);
-    const data = await res.json();
-    rates = data.rates;
-    rates.EUR = 1;
+    let data;
+    try { data = await fetchFromApi(RATES_URL); }
+    catch { data = await fetchFromApi(RATES_FALLBACK); }
+    applyRatesData(data);
     saveCache(rates);
     buildAvailable();
+    populateConverterSelects();
     renderGrid();
     updateConverter();
     renderItems();
@@ -429,11 +547,10 @@ async function refreshRates() {
 function startAutoRefresh() {
   setInterval(async () => {
     try {
-      const res = await fetch('https://api.frankfurter.app/latest?from=EUR');
-      if (!res.ok) return;
-      const data = await res.json();
-      rates = data.rates;
-      rates.EUR = 1;
+      let data;
+      try { data = await fetchFromApi(RATES_URL); }
+      catch { data = await fetchFromApi(RATES_FALLBACK); }
+      applyRatesData(data);
       saveCache(rates);
       buildAvailable();
       renderGrid();
